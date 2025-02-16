@@ -38,8 +38,7 @@ public class AuthControllerTests
         // Arrange
         var mockLogger = new Mock<ILogger<AuthController>>();
         var mockAuthService = new Mock<IAuthService>();
-        mockAuthService.Setup(service => service.Authenticate(It.IsAny<string>(), It.IsAny<string>()))
-                       .Returns((string)null); // Return null for invalid credentials
+        mockAuthService.Setup(service => service.Authenticate(It.IsAny<string>(), It.IsAny<string>())).Returns((string)null);
 
         var controller = new AuthController(mockLogger.Object, mockAuthService.Object);
         var userModel = new UserModel { UserName = "invalid", Password = "invalid" };

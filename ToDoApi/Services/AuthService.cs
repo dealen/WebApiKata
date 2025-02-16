@@ -25,7 +25,7 @@ public class AuthService : IAuthService
         var user = _users.SingleOrDefault(x => x.UserName == username && x.Password == password);
         if (user == null)
         {
-            throw new Exception("Invalid username or password");
+            throw new UnauthorizedAccessException("Invalid username or password");
         }
 
         var confkey = _configuration["Jwt:Key"];
@@ -37,17 +37,17 @@ public class AuthService : IAuthService
         }
         if (confkey is null)
         {
-            throw new Exception("Jwt:Key is not set in configuration");
+            throw new UnauthorizedAccessException("Jwt:Key is not set in configuration");
         }
 
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(confkey);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new Claim[]
-            {
+            Subject = new ClaimsIdentity(
+            [
                 new Claim(ClaimTypes.Name, user.UserName)
-            }),
+            ]),
             Expires = DateTime.UtcNow.AddMinutes(durationInMinutes),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
             Issuer = issuer,
