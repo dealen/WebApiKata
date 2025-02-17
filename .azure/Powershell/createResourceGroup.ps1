@@ -13,4 +13,4 @@ else {
 }
 
 # Example:  Deploy a Bicep template (optional - add if you have a Bicep file).
-# New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile "main.bicep"
+New-AzResourceGroupDeployment -ResourceGroupName $ResourceGroupName -TemplateFile "..\Bicep\main.bicep"
